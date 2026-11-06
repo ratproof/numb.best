@@ -56,8 +56,9 @@ function Background() {
   );
 }
 
-// A crescent: thick in the middle, tapering to a point at both ends.
-const BAND = "M-20 170 Q800 -30 1620 170 Q800 100 -20 170 Z";
+// Centre line of the ribbon: dips on the left, rises on the right.
+const BAND =
+  "M-40 78 C160 112 300 142 520 142 C800 142 1000 65 1300 65 C1450 65 1560 68 1640 74";
 
 // x, y, radius, max opacity, twinkle duration in seconds
 const STARS: [number, number, number, number, number][] = [
@@ -80,22 +81,40 @@ function Divider({ id, flip = false }: { id: string; flip?: boolean }) {
     <div className={`divider${flip ? " is-flipped" : ""}`} aria-hidden="true">
       <svg viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice">
         <defs>
-          <pattern id={`${id}-grid`} width="5" height="3" patternUnits="userSpaceOnUse">
-            <rect width="3.4" height="1.4" fill="#7e98e6" fillOpacity="0.42" />
+          <pattern id={`${id}-grid`} width="4" height="2.6" patternUnits="userSpaceOnUse">
+            <rect width="2.6" height="1" fill="#6f8bd8" fillOpacity="0.4" />
           </pattern>
-          <filter id={`${id}-soft`} x="-5%" y="-30%" width="110%" height="160%">
-            <feGaussianBlur stdDeviation="2.5" />
+          <linearGradient
+            id={`${id}-fade`}
+            gradientUnits="userSpaceOnUse"
+            x1="0"
+            y1="0"
+            x2="1600"
+            y2="0"
+          >
+            <stop offset="0" stopColor="#fff" stopOpacity="0.45" />
+            <stop offset="0.5" stopColor="#fff" stopOpacity="1" />
+            <stop offset="1" stopColor="#fff" stopOpacity="0.6" />
+          </linearGradient>
+          <filter id={`${id}-soft`} x="-5%" y="-40%" width="110%" height="180%">
+            <feGaussianBlur stdDeviation="3" />
           </filter>
           <mask id={`${id}-mask`} maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="200">
-            <path d={BAND} fill="#fff" filter={`url(#${id}-soft)`} />
+            <path
+              d={BAND}
+              fill="none"
+              stroke={`url(#${id}-fade)`}
+              strokeWidth="68"
+              filter={`url(#${id}-soft)`}
+            />
           </mask>
         </defs>
 
         <rect
           width="1600"
           height="200"
-          fill="#3c5090"
-          fillOpacity="0.12"
+          fill="#34467f"
+          fillOpacity="0.14"
           mask={`url(#${id}-mask)`}
         />
         <rect width="1600" height="200" fill={`url(#${id}-grid)`} mask={`url(#${id}-mask)`} />

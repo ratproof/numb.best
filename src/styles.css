@@ -270,7 +270,7 @@ ul {
 }
 
 .divider.is-flipped {
-  transform: scaleY(-1);
+  transform: scaleX(-1);
 }
 
 .star {
