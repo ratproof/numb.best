@@ -4,8 +4,8 @@ export const bot = {
   description:
     "numb handles the boring parts of running a server so you can focus on the people in it.",
   // Replace these with your real links.
-  inviteUrl: "https://discord.com/oauth2/authorize?client_id=1567433168489947278&scope=bot&permissions=0",
-  supportUrl: "https://discord.gg/numbot",
+  inviteUrl: "https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=0",
+  supportUrl: "https://discord.gg/YOUR_INVITE",
 };
 
 export type Feature = {

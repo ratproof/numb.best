@@ -1,14 +1,12 @@
 :root {
-  --bg: #f5f3ef;
-  --surface: #fbfaf8;
-  --ink: #181816;
-  --muted: #6c6a63;
-  --line: #dedad2;
+  --bg: #14112f;
+  --ink: #ecebf7;
+  --muted: #a6a4c8;
+  --line: rgba(236, 235, 247, 0.12);
   --radius: 6px;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  color-scheme: light;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: dark;
 }
 
 * {
@@ -50,11 +48,6 @@ ul {
   list-style: none;
 }
 
-code {
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-}
-
 :focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
@@ -72,6 +65,57 @@ code {
   color: var(--muted);
 }
 
+/* Background */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(180deg, #17133a 0%, #0f1736 100%);
+}
+
+.wave {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  will-change: transform;
+  animation: drift linear infinite;
+}
+
+.wave path {
+  fill: currentColor;
+}
+
+.wave-1 {
+  bottom: 0;
+  height: 42vh;
+  color: rgba(108, 90, 220, 0.22);
+  animation-duration: 34s;
+}
+
+.wave-2 {
+  bottom: 3vh;
+  height: 34vh;
+  color: rgba(66, 106, 226, 0.2);
+  animation-duration: 24s;
+  animation-direction: reverse;
+  animation-delay: -8s;
+}
+
+.wave-3 {
+  bottom: -2vh;
+  height: 26vh;
+  color: rgba(140, 112, 240, 0.16);
+  animation-duration: 17s;
+  animation-delay: -4s;
+}
+
+@keyframes drift {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 /* Header */
 .header {
   position: sticky;
@@ -82,7 +126,7 @@ code {
 }
 
 .header.is-solid {
-  background: rgba(245, 243, 239, 0.88);
+  background: rgba(20, 17, 47, 0.78);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom-color: var(--line);
@@ -100,10 +144,10 @@ code {
   align-items: center;
   gap: 10px;
   justify-self: start;
-  font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 20px;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .brand-mark {
@@ -191,7 +235,7 @@ code {
 }
 
 .button:hover {
-  background: #36352f;
+  background: #ffffff;
 }
 
 .button-small {
@@ -202,11 +246,11 @@ code {
 .button-ghost {
   background: transparent;
   color: var(--ink);
-  border-color: var(--line);
+  border-color: rgba(236, 235, 247, 0.28);
 }
 
 .button-ghost:hover {
-  background: var(--surface);
+  background: rgba(236, 235, 247, 0.08);
   border-color: var(--ink);
 }
 
@@ -217,12 +261,11 @@ code {
 }
 
 .hero h1 {
-  max-width: 14ch;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(48px, 8vw, 92px);
-  line-height: 1;
-  letter-spacing: -0.025em;
+  max-width: 16ch;
+  font-weight: 600;
+  font-size: clamp(38px, 6.5vw, 70px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
 }
 
 .lead {
@@ -250,11 +293,10 @@ code {
 }
 
 .section-title {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 34px;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 .rows > .row {
@@ -283,7 +325,7 @@ code {
 
 .row h3 {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .row p {
@@ -348,8 +390,8 @@ code {
 }
 
 .footer-inner > span:first-child {
-  font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .footer-links {
@@ -411,6 +453,10 @@ code {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .wave {
+    animation: none;
   }
 
   .header,
