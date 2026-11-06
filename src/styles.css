@@ -1,5 +1,5 @@
 :root {
-  --bg: #14112f;
+  --bg: #0a0a11;
   --ink: #ecebf7;
   --muted: #a6a4c8;
   --line: rgba(236, 235, 247, 0.12);
@@ -71,7 +71,7 @@ ul {
   inset: 0;
   z-index: -1;
   overflow: hidden;
-  background: linear-gradient(180deg, #17133a 0%, #0f1736 100%);
+  background: var(--bg);
 }
 
 .waves {
@@ -91,7 +91,7 @@ ul {
 }
 
 .header.is-solid {
-  background: rgba(20, 17, 47, 0.78);
+  background: rgba(10, 10, 17, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom-color: var(--line);
