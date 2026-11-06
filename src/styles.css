@@ -273,17 +273,90 @@ ul {
   transform: scaleX(-1);
 }
 
+/* Uneven flicker, like real scintillation. Three patterns, picked per star. */
 .star {
-  animation: twinkle ease-in-out infinite;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
-@keyframes twinkle {
+.star-0 {
+  animation-name: twinkle-0;
+}
+
+.star-1 {
+  animation-name: twinkle-1;
+}
+
+.star-2 {
+  animation-name: twinkle-2;
+}
+
+@keyframes twinkle-0 {
   0%,
   100% {
+    opacity: 0.9;
+  }
+  12% {
+    opacity: 0.35;
+  }
+  20% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.7;
+  }
+  58% {
+    opacity: 0.2;
+  }
+  66% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes twinkle-1 {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  18% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  52% {
     opacity: 0.15;
   }
-  50% {
+  63% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes twinkle-2 {
+  0%,
+  100% {
     opacity: 1;
+  }
+  25% {
+    opacity: 0.45;
+  }
+  33% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.25;
+  }
+  72% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.6;
   }
 }
 

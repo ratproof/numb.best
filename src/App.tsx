@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { bot, faq, features } from "./content";
 import Waves from "./Waves";
 
@@ -60,23 +60,59 @@ function Background() {
 const BAND =
   "M-40 78 C160 112 300 142 520 142 C800 142 1000 65 1300 65 C1450 65 1560 68 1640 74";
 
-// x, y, radius, max opacity, twinkle duration in seconds
-const STARS: [number, number, number, number, number][] = [
-  [110, 60, 1.4, 0.8, 6],
-  [260, 120, 1.1, 0.7, 7],
-  [430, 30, 2.2, 0.9, 5],
-  [560, 150, 1, 0.6, 8],
-  [700, 20, 1.2, 0.7, 6.5],
-  [820, 185, 1.8, 0.9, 5.5],
-  [930, 35, 1.3, 0.8, 7.5],
-  [1060, 175, 1.4, 0.8, 6],
-  [1200, 15, 1.1, 0.7, 8],
-  [1340, 60, 1.6, 0.9, 5],
-  [1480, 140, 1.2, 0.7, 7],
-  [1560, 40, 1, 0.6, 6.5],
-];
+type Star = {
+  x: number;
+  y: number;
+  r: number;
+  opacity: number;
+  color: string;
+  duration: number;
+  delay: number;
+  variant: number;
+};
 
-function Divider({ id, flip = false }: { id: string; flip?: boolean }) {
+// Small seeded random generator so the star field is the same on every load.
+function seededRandom(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Mostly white, with a few cool blue and warm tints like real stars.
+const STAR_COLORS = ["#ffffff", "#ffffff", "#d6e4ff", "#bcd0ff", "#fff1e0"];
+
+function makeStars(seed: number, count = 70): Star[] {
+  const rand = seededRandom(seed);
+  return Array.from({ length: count }, () => {
+    // Raising to a power makes most stars tiny and a few bright.
+    const size = Math.pow(rand(), 5);
+    return {
+      x: rand() * 1600,
+      y: rand() * 200,
+      r: 0.45 + size * 1.9,
+      opacity: 0.3 + 0.7 * Math.sqrt(size),
+      color: STAR_COLORS[Math.floor(rand() * STAR_COLORS.length)],
+      duration: 3 + rand() * 6,
+      delay: rand() * 10,
+      variant: Math.floor(rand() * 3),
+    };
+  });
+}
+
+function Divider({
+  id,
+  seed,
+  flip = false,
+}: {
+  id: string;
+  seed: number;
+  flip?: boolean;
+}) {
+  const stars = useMemo(() => makeStars(seed), [seed]);
   return (
     <div className={`divider${flip ? " is-flipped" : ""}`} aria-hidden="true">
       <svg viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice">
@@ -96,6 +132,10 @@ function Divider({ id, flip = false }: { id: string; flip?: boolean }) {
             <stop offset="0.5" stopColor="#fff" stopOpacity="1" />
             <stop offset="1" stopColor="#fff" stopOpacity="0.6" />
           </linearGradient>
+          <radialGradient id={`${id}-glow`}>
+            <stop offset="0" stopColor="#bcd0ff" stopOpacity="0.35" />
+            <stop offset="1" stopColor="#bcd0ff" stopOpacity="0" />
+          </radialGradient>
           <filter id={`${id}-soft`} x="-5%" y="-40%" width="110%" height="180%">
             <feGaussianBlur stdDeviation="3" />
           </filter>
@@ -119,17 +159,15 @@ function Divider({ id, flip = false }: { id: string; flip?: boolean }) {
         />
         <rect width="1600" height="200" fill={`url(#${id}-grid)`} mask={`url(#${id}-mask)`} />
 
-        {STARS.map(([x, y, r, o, d], i) => (
-          <circle
-            key={`${x}-${y}`}
-            className="star"
-            cx={x}
-            cy={y}
-            r={r}
-            fill="#8aa4ee"
-            fillOpacity={o}
-            style={{ animationDuration: `${d}s`, animationDelay: `-${i * 1.7}s` }}
-          />
+        {stars.map((s, i) => (
+          <g
+            key={i}
+            className={`star star-${s.variant}`}
+            style={{ animationDuration: `${s.duration}s`, animationDelay: `-${s.delay}s` }}
+          >
+            {s.r > 1.5 && <circle cx={s.x} cy={s.y} r={s.r * 5} fill={`url(#${id}-glow)`} />}
+            <circle cx={s.x} cy={s.y} r={s.r} fill={s.color} fillOpacity={s.opacity} />
+          </g>
         ))}
       </svg>
     </div>
@@ -279,9 +317,9 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        <Divider id="d1" />
+        <Divider id="d1" seed={7} />
         <Features />
-        <Divider id="d2" flip />
+        <Divider id="d2" seed={21} flip />
         <Faq />
       </main>
       <Footer />
