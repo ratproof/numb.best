@@ -74,46 +74,11 @@ ul {
   background: linear-gradient(180deg, #17133a 0%, #0f1736 100%);
 }
 
-.wave {
+.waves {
   position: absolute;
-  left: 0;
-  width: 200%;
-  will-change: transform;
-  animation: drift linear infinite;
-}
-
-.wave path {
-  fill: currentColor;
-}
-
-.wave-1 {
-  bottom: 0;
-  height: 42vh;
-  color: rgba(108, 90, 220, 0.22);
-  animation-duration: 34s;
-}
-
-.wave-2 {
-  bottom: 3vh;
-  height: 34vh;
-  color: rgba(66, 106, 226, 0.2);
-  animation-duration: 24s;
-  animation-direction: reverse;
-  animation-delay: -8s;
-}
-
-.wave-3 {
-  bottom: -2vh;
-  height: 26vh;
-  color: rgba(140, 112, 240, 0.16);
-  animation-duration: 17s;
-  animation-delay: -4s;
-}
-
-@keyframes drift {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Header */
@@ -453,10 +418,6 @@ ul {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .wave {
-    animation: none;
   }
 
   .header,

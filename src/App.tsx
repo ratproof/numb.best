@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { bot, faq, features } from "./content";
+import Waves from "./Waves";
 
 const sections = [
   { id: "features", label: "Features" },
@@ -47,23 +48,10 @@ function useScrolled(threshold = 8): boolean {
   return scrolled;
 }
 
-// One period is 1200 units, so the 2400 wide path tiles seamlessly.
-const WAVE =
-  "M0 100 C200 40 400 40 600 100 S1000 160 1200 100 S1600 40 1800 100 S2200 160 2400 100 V200 H0 Z";
-
 function Background() {
   return (
     <div className="bg" aria-hidden="true">
-      {[1, 2, 3].map((n) => (
-        <svg
-          key={n}
-          className={`wave wave-${n}`}
-          viewBox="0 0 2400 200"
-          preserveAspectRatio="none"
-        >
-          <path d={WAVE} />
-        </svg>
-      ))}
+      <Waves />
     </div>
   );
 }
