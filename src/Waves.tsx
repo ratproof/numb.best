@@ -65,17 +65,19 @@ void main() {
   );
   float f = fbm(p + 3.0 * r);
 
-  float bands = sin(f * 7.0 + r.x * 3.0);
-  float light = smoothstep(0.1, 1.0, bands);
+  // Soft contour lines of the warped noise read as thin silky ribbons.
+  float c = sin(f * 10.0 + r.x * 4.0);
+  float ridge = smoothstep(0.35, 1.0, 1.0 - abs(c));
 
-  vec3 blue = vec3(0.20, 0.23, 0.42);
-  vec3 violet = vec3(0.28, 0.22, 0.45);
+  vec3 blue = vec3(0.20, 0.22, 0.34);
+  vec3 violet = vec3(0.25, 0.22, 0.36);
   vec3 tint = mix(blue, violet, smoothstep(0.3, 0.7, q.x));
 
-  vec3 col = vec3(0.04, 0.04, 0.065) + tint * light * 0.45;
+  // Lighter slate base, with a faint haze and low contrast ribbons on top.
+  vec3 col = vec3(0.075, 0.078, 0.105) + tint * (ridge * 0.2 + f * 0.06);
 
   vec2 v = gl_FragCoord.xy / u_res - 0.5;
-  col *= 1.0 - dot(v, v) * 0.8;
+  col *= 1.0 - dot(v, v) * 0.5;
 
   // Tiny dither so the dark gradients do not band.
   col += (hash(gl_FragCoord.xy) - 0.5) / 160.0;
