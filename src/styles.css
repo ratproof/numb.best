@@ -4,7 +4,6 @@
   --ink: #181816;
   --muted: #6c6a63;
   --line: #dedad2;
-  --accent: #55705b;
   --radius: 6px;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
@@ -240,38 +239,6 @@ code {
   margin-top: 36px;
 }
 
-.example {
-  max-width: 520px;
-  margin-top: 72px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
-
-.example-row {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  padding: 14px 18px;
-  font-size: 15px;
-}
-
-.example-row + .example-row {
-  border-top: 1px solid var(--line);
-}
-
-.example-who {
-  flex: none;
-  width: 44px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.example-who.is-bot {
-  color: var(--accent);
-  font-weight: 500;
-}
-
 /* Sections */
 .section {
   display: grid;
@@ -321,15 +288,6 @@ code {
 
 .row p {
   color: var(--muted);
-}
-
-.row-command {
-  grid-template-columns: 160px 1fr !important;
-  align-items: baseline;
-}
-
-.row-command code {
-  color: var(--ink);
 }
 
 /* FAQ */
@@ -442,19 +400,6 @@ code {
   .hero {
     padding-top: 56px;
     padding-bottom: 72px;
-  }
-
-  .example {
-    margin-top: 48px;
-  }
-
-  .row-command {
-    grid-template-columns: 1fr !important;
-    gap: 2px !important;
-  }
-
-  .row-command p {
-    grid-column: 1 !important;
   }
 
   .footer-inner {

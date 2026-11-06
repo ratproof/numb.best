@@ -127,17 +127,6 @@ function Hero() {
           Support server
         </a>
       </div>
-
-      <div className="example" aria-hidden="true">
-        <div className="example-row">
-          <span className="example-who">you</span>
-          <code>{example.command}</code>
-        </div>
-        <div className="example-row">
-          <span className="example-who is-bot">{bot.name}</span>
-          <span>{example.reply}</span>
-        </div>
-      </div>
     </section>
   );
 }

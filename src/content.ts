@@ -4,7 +4,7 @@ export const bot = {
   description:
     "numb handles the boring parts of running a server so you can focus on the people in it.",
   // Replace these with your real links.
-  inviteUrl: "https://discord.com/oauth2/authorize?client_id=1567433168489947278&scope=bot%20applications.commands&permissions=8",
+  inviteUrl: "https://discord.com/oauth2/authorize?client_id=1567433168489947278&scope=bot&permissions=0",
   supportUrl: "https://discord.gg/numbot",
 };
 
@@ -29,7 +29,6 @@ export const features: Feature[] = [
   },
 ];
 
-
 export type Faq = {
   q: string;
   a: string;
@@ -42,7 +41,7 @@ export const faq: Faq[] = [
   },
   {
     q: "Is it free?",
-    a: "Yes",
+    a: "Yes. Update this answer if that changes.",
   },
   {
     q: "How do I get help?",
