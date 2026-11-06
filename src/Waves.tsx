@@ -149,8 +149,8 @@ export default function Waves() {
     };
 
     const resize = () => {
-      const w = Math.max(1, Math.round(window.innerWidth * SCALE));
-      const h = Math.max(1, Math.round(window.innerHeight * SCALE));
+      const w = Math.max(1, Math.round(canvas.clientWidth * SCALE));
+      const h = Math.max(1, Math.round(canvas.clientHeight * SCALE));
       canvas.width = w;
       canvas.height = h;
       gl.viewport(0, 0, w, h);
@@ -164,12 +164,13 @@ export default function Waves() {
     };
 
     resize();
-    window.addEventListener("resize", resize);
+    const observer = new ResizeObserver(resize);
+    observer.observe(canvas);
     if (!reduced) frame = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("resize", resize);
+      observer.disconnect();
       gl.deleteBuffer(buffer);
       gl.deleteProgram(program);
       gl.deleteShader(vs);

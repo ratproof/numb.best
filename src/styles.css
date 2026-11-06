@@ -1,5 +1,5 @@
 :root {
-  --bg: #14152e;
+  --bg: #08080c;
   --ink: #ecebf7;
   --muted: #a6a4c8;
   --line: rgba(236, 235, 247, 0.12);
@@ -66,12 +66,22 @@ ul {
 }
 
 /* Background */
+/* The landing area sits under the navbar and holds the waves. */
+.landing {
+  position: relative;
+  isolation: isolate;
+  margin-top: -68px;
+  padding-top: 68px;
+}
+
+/* Waves only fill the landing area and fade out into the black page below. */
 .bg {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: -1;
   overflow: hidden;
-  background: var(--bg);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
 }
 
 .waves {
@@ -91,7 +101,7 @@ ul {
 }
 
 .header.is-solid {
-  background: rgba(20, 21, 46, 0.7);
+  background: rgba(8, 8, 12, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom-color: var(--line);

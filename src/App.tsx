@@ -322,10 +322,12 @@ function Footer() {
 export default function App() {
   return (
     <>
-      <Background />
       <Header />
       <main>
-        <Hero />
+        <div className="landing">
+          <Background />
+          <Hero />
+        </div>
         <Divider id="d1" seed={7} />
         <Features />
         <Divider id="d2" seed={21} flip />
