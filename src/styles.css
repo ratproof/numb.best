@@ -222,7 +222,7 @@ ul {
 /* Hero */
 .hero {
   padding-top: 96px;
-  padding-bottom: 112px;
+  padding-bottom: 48px;
 }
 
 .hero h1 {
@@ -252,9 +252,25 @@ ul {
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 32px;
-  padding-top: 56px;
-  padding-bottom: 72px;
-  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  padding-bottom: 40px;
+}
+
+/* Wavy separator between sections */
+.divider {
+  height: clamp(110px, 14vw, 180px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.divider svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.divider.is-flipped {
+  transform: scaleX(-1);
 }
 
 .section-title {

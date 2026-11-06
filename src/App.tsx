@@ -56,6 +56,75 @@ function Background() {
   );
 }
 
+const BAND = "M-40 70 C200 130 420 170 720 120 S1200 30 1640 50";
+
+// x, y, radius, opacity
+const STARS: [number, number, number, number][] = [
+  [90, 40, 1.4, 0.5],
+  [210, 150, 1.2, 0.5],
+  [430, 180, 2.4, 0.9],
+  [520, 60, 1, 0.4],
+  [640, 30, 1.2, 0.4],
+  [760, 175, 1.8, 0.7],
+  [890, 95, 1.3, 0.6],
+  [1010, 150, 1.4, 0.8],
+  [1180, 35, 1.1, 0.5],
+  [1320, 120, 1.6, 0.7],
+  [1500, 25, 1.2, 0.5],
+  [1560, 150, 1, 0.5],
+];
+
+function Divider({ id, flip = false }: { id: string; flip?: boolean }) {
+  return (
+    <div className={`divider${flip ? " is-flipped" : ""}`} aria-hidden="true">
+      <svg viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id={`${id}-grid`} width="5" height="3" patternUnits="userSpaceOnUse">
+            <rect width="3.4" height="1.4" fill="#7e98e6" fillOpacity="0.55" />
+          </pattern>
+          <linearGradient
+            id={`${id}-fade`}
+            gradientUnits="userSpaceOnUse"
+            x1="0"
+            y1="0"
+            x2="1600"
+            y2="0"
+          >
+            <stop offset="0" stopColor="#fff" stopOpacity="0.4" />
+            <stop offset="0.55" stopColor="#fff" stopOpacity="1" />
+            <stop offset="1" stopColor="#fff" stopOpacity="0.7" />
+          </linearGradient>
+          <filter id={`${id}-soft`} x="-5%" y="-30%" width="110%" height="160%">
+            <feGaussianBlur stdDeviation="2.5" />
+          </filter>
+          <mask id={`${id}-mask`} maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="200">
+            <path
+              d={BAND}
+              fill="none"
+              stroke={`url(#${id}-fade)`}
+              strokeWidth="84"
+              filter={`url(#${id}-soft)`}
+            />
+          </mask>
+        </defs>
+
+        <rect
+          width="1600"
+          height="200"
+          fill="#3c5090"
+          fillOpacity="0.22"
+          mask={`url(#${id}-mask)`}
+        />
+        <rect width="1600" height="200" fill={`url(#${id}-grid)`} mask={`url(#${id}-mask)`} />
+
+        {STARS.map(([x, y, r, o]) => (
+          <circle key={`${x}-${y}`} cx={x} cy={y} r={r} fill="#8aa4ee" fillOpacity={o} />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 function Header() {
   const [open, setOpen] = useState(false);
   const active = useActiveSection();
@@ -199,7 +268,9 @@ export default function App() {
       <Header />
       <main>
         <Hero />
+        <Divider id="d1" />
         <Features />
+        <Divider id="d2" flip />
         <Faq />
       </main>
       <Footer />
