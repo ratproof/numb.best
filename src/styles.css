@@ -270,7 +270,21 @@ ul {
 }
 
 .divider.is-flipped {
-  transform: scaleX(-1);
+  transform: scaleY(-1);
+}
+
+.star {
+  animation: twinkle ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .section-title {
@@ -434,6 +448,10 @@ ul {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .star {
+    animation: none;
   }
 
   .header,
