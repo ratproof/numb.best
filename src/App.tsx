@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { bot, commands, example, faq, features } from "./content";
+import { bot, faq, features } from "./content";
 
 const sections = [
   { id: "features", label: "Features" },
-  { id: "commands", label: "Commands" },
   { id: "faq", label: "FAQ" },
 ];
 
@@ -164,22 +163,6 @@ function Features() {
   );
 }
 
-function Commands() {
-  return (
-    <section className="section container" id="commands">
-      <SectionHead title="Commands" />
-      <ul className="rows">
-        {commands.map((c) => (
-          <li className="row row-command" key={c.name}>
-            <code>{c.name}</code>
-            <p>{c.description}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
 function Faq() {
   return (
     <section className="section container" id="faq">
@@ -218,7 +201,6 @@ export default function App() {
       <main>
         <Hero />
         <Features />
-        <Commands />
         <Faq />
       </main>
       <Footer />

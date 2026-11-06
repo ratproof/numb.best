@@ -49,9 +49,3 @@ export const faq: Faq[] = [
     a: "Join the support server and ask in the help channel.",
   },
 ];
-
-// Sample exchange shown in the hero. Edit to match a real command.
-export const example = {
-  command: "/warn member:@jordan reason:spam",
-  reply: "Warned jordan. Case #12 logged in #mod-log.",
-};
