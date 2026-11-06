@@ -85,7 +85,11 @@ function seededRandom(seed: number): () => number {
 // Mostly white, with a few cool blue and warm tints like real stars.
 const STAR_COLORS = ["#ffffff", "#ffffff", "#d6e4ff", "#bcd0ff", "#fff1e0"];
 
-function makeStars(seed: number, count = 70): Star[] {
+// Four pointed star with slightly pinched sides, drawn at unit size.
+const STAR_PATH =
+  "M0 -1 Q0.14 -0.14 1 0 Q0.14 0.14 0 1 Q-0.14 0.14 -1 0 Q-0.14 -0.14 0 -1 Z";
+
+function makeStars(seed: number, count = 60): Star[] {
   const rand = seededRandom(seed);
   return Array.from({ length: count }, () => {
     // Raising to a power makes most stars tiny and a few bright.
@@ -93,8 +97,8 @@ function makeStars(seed: number, count = 70): Star[] {
     return {
       x: rand() * 1600,
       y: rand() * 200,
-      r: 0.45 + size * 1.9,
-      opacity: 0.3 + 0.7 * Math.sqrt(size),
+      r: 0.4 + size * 1.0,
+      opacity: 0.2 + 0.45 * Math.sqrt(size),
       color: STAR_COLORS[Math.floor(rand() * STAR_COLORS.length)],
       duration: 3 + rand() * 6,
       delay: rand() * 10,
@@ -133,7 +137,7 @@ function Divider({
             <stop offset="1" stopColor="#fff" stopOpacity="0.6" />
           </linearGradient>
           <radialGradient id={`${id}-glow`}>
-            <stop offset="0" stopColor="#bcd0ff" stopOpacity="0.35" />
+            <stop offset="0" stopColor="#bcd0ff" stopOpacity="0.12" />
             <stop offset="1" stopColor="#bcd0ff" stopOpacity="0" />
           </radialGradient>
           <filter id={`${id}-soft`} x="-5%" y="-40%" width="110%" height="180%">
@@ -165,8 +169,13 @@ function Divider({
             className={`star star-${s.variant}`}
             style={{ animationDuration: `${s.duration}s`, animationDelay: `-${s.delay}s` }}
           >
-            {s.r > 1.5 && <circle cx={s.x} cy={s.y} r={s.r * 5} fill={`url(#${id}-glow)`} />}
-            <circle cx={s.x} cy={s.y} r={s.r} fill={s.color} fillOpacity={s.opacity} />
+            {s.r > 1 && <circle cx={s.x} cy={s.y} r={s.r * 4} fill={`url(#${id}-glow)`} />}
+            <path
+              d={STAR_PATH}
+              transform={`translate(${s.x} ${s.y}) scale(${s.r * 2.6})`}
+              fill={s.color}
+              fillOpacity={s.opacity}
+            />
           </g>
         ))}
       </svg>
