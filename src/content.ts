@@ -4,7 +4,7 @@ export const bot = {
   description:
     "numb handles the boring parts of running a server so you can focus on the people in it.",
   // Replace these with your real links.
-  inviteUrl: "https://discord.com/oauth2/authorize?client_id=1567433168489947278&scope=bot%20applications.commands&permissions=0",
+  inviteUrl: "https://discord.com/oauth2/authorize?client_id=1567433168489947278&scope=bot%20applications.commands&permissions=8",
   supportUrl: "https://discord.gg/numbot",
 };
 
@@ -29,20 +29,6 @@ export const features: Feature[] = [
   },
 ];
 
-export type Command = {
-  name: string;
-  description: string;
-};
-
-// Placeholder commands. Edit these to match your bot.
-export const commands: Command[] = [
-  { name: ",warn", description: "Warn a member and record the reason." },
-  { name: ",mute", description: "Time out a member for a set duration." },
-  { name: ",kick", description: "Remove a member from the server." },
-  { name: ",ban", description: "Ban a member, with optional message cleanup." },
-  { name: ",logs", description: "Choose where moderation logs are posted." },
-  { name: ",help", description: "List every command and what it does." },
-];
 
 export type Faq = {
   q: string;
@@ -56,10 +42,16 @@ export const faq: Faq[] = [
   },
   {
     q: "Is it free?",
-    a: "Yes.",
+    a: "Yes",
   },
   {
     q: "How do I get help?",
     a: "Join the support server and ask in the help channel.",
   },
 ];
+
+// Sample exchange shown in the hero. Edit to match a real command.
+export const example = {
+  command: "/warn member:@jordan reason:spam",
+  reply: "Warned jordan. Case #12 logged in #mod-log.",
+};

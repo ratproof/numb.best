@@ -1,22 +1,116 @@
-import { useState } from "react";
-import { bot, commands, faq, features } from "./content";
+import { useEffect, useState } from "react";
+import { bot, commands, example, faq, features } from "./content";
+
+const sections = [
+  { id: "features", label: "Features" },
+  { id: "commands", label: "Commands" },
+  { id: "faq", label: "FAQ" },
+];
+
+const observed = ["top", ...sections.map((s) => s.id)];
+
+function useActiveSection(): string | null {
+  const [active, setActive] = useState<string | null>(null);
+
+  useEffect(() => {
+    const elements = observed
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id === "top" ? null : entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
+function useScrolled(threshold = 8): boolean {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [threshold]);
+
+  return scrolled;
+}
 
 function Header() {
+  const [open, setOpen] = useState(false);
+  const active = useActiveSection();
+  const scrolled = useScrolled();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const close = () => setOpen(false);
+
   return (
-    <header className="header">
+    <header className={`header${scrolled || open ? " is-solid" : ""}`}>
       <div className="container header-inner">
-        <a className="brand" href="#top">
+        <a className="brand" href="#top" onClick={close}>
+          <span className="brand-mark" aria-hidden="true" />
           {bot.name}
         </a>
-        <nav className="nav" aria-label="Main">
-          <a href="#features">Features</a>
-          <a href="#commands">Commands</a>
-          <a href="#faq">FAQ</a>
-          <a className="button button-small" href={bot.inviteUrl}>
+
+        <nav className="nav-links" aria-label="Main">
+          {sections.map((s) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              aria-current={active === s.id ? "true" : undefined}
+            >
+              {s.label}
+            </a>
+          ))}
+        </nav>
+
+        <a className="button button-small nav-cta" href={bot.inviteUrl}>
+          Add to Discord
+        </a>
+
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? "Close" : "Menu"}
+        </button>
+      </div>
+
+      {open && (
+        <nav id="mobile-menu" className="mobile-menu container" aria-label="Mobile">
+          {sections.map((s) => (
+            <a key={s.id} href={`#${s.id}`} onClick={close}>
+              {s.label}
+            </a>
+          ))}
+          <a className="button" href={bot.inviteUrl}>
             Add to Discord
           </a>
         </nav>
-      </div>
+      )}
     </header>
   );
 }
@@ -34,22 +128,38 @@ function Hero() {
           Support server
         </a>
       </div>
+
+      <div className="example" aria-hidden="true">
+        <div className="example-row">
+          <span className="example-who">you</span>
+          <code>{example.command}</code>
+        </div>
+        <div className="example-row">
+          <span className="example-who is-bot">{bot.name}</span>
+          <span>{example.reply}</span>
+        </div>
+      </div>
     </section>
   );
+}
+
+function SectionHead({ title }: { title: string }) {
+  return <h2 className="section-title">{title}</h2>;
 }
 
 function Features() {
   return (
     <section className="section container" id="features">
-      <h2>Features</h2>
-      <div className="grid">
-        {features.map((f) => (
-          <article className="card" key={f.title}>
+      <SectionHead title="Features" />
+      <ol className="rows">
+        {features.map((f, i) => (
+          <li className="row" key={f.title}>
+            <span className="row-index">{String(i + 1).padStart(2, "0")}</span>
             <h3>{f.title}</h3>
             <p>{f.body}</p>
-          </article>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   );
 }
@@ -57,12 +167,12 @@ function Features() {
 function Commands() {
   return (
     <section className="section container" id="commands">
-      <h2>Commands</h2>
-      <ul className="commands">
+      <SectionHead title="Commands" />
+      <ul className="rows">
         {commands.map((c) => (
-          <li key={c.name}>
+          <li className="row row-command" key={c.name}>
             <code>{c.name}</code>
-            <span>{c.description}</span>
+            <p>{c.description}</p>
           </li>
         ))}
       </ul>
@@ -71,36 +181,16 @@ function Commands() {
 }
 
 function Faq() {
-  const [open, setOpen] = useState<number | null>(0);
   return (
     <section className="section container" id="faq">
-      <h2>FAQ</h2>
+      <SectionHead title="FAQ" />
       <div className="faq">
-        {faq.map((item, i) => {
-          const isOpen = open === i;
-          return (
-            <div className="faq-item" key={item.q}>
-              <h3>
-                <button
-                  type="button"
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-panel-${i}`}
-                  onClick={() => setOpen(isOpen ? null : i)}
-                >
-                  <span>{item.q}</span>
-                  <span className="faq-icon" aria-hidden="true">
-                    {isOpen ? "-" : "+"}
-                  </span>
-                </button>
-              </h3>
-              {isOpen && (
-                <p id={`faq-panel-${i}`} className="faq-answer">
-                  {item.a}
-                </p>
-              )}
-            </div>
-          );
-        })}
+        {faq.map((item) => (
+          <details className="faq-item" key={item.q}>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
       </div>
     </section>
   );
@@ -111,6 +201,10 @@ function Footer() {
     <footer className="footer">
       <div className="container footer-inner">
         <span>{bot.name}</span>
+        <span className="footer-links">
+          <a href={bot.supportUrl}>Support</a>
+          <a href={bot.inviteUrl}>Invite</a>
+        </span>
         <span className="muted">Not affiliated with Discord.</span>
       </div>
     </footer>
