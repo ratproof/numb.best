@@ -69,12 +69,12 @@ void main() {
   float c = sin(f * 10.0 + r.x * 4.0);
   float ridge = smoothstep(0.35, 1.0, 1.0 - abs(c));
 
-  vec3 blue = vec3(0.20, 0.22, 0.34);
-  vec3 violet = vec3(0.25, 0.22, 0.36);
-  vec3 tint = mix(blue, violet, smoothstep(0.3, 0.7, q.x));
+  vec3 blue = vec3(0.22, 0.32, 0.70);
+  vec3 violet = vec3(0.45, 0.27, 0.72);
+  vec3 tint = mix(blue, violet, smoothstep(0.2, 0.8, q.x));
 
-  // Lighter slate base, with a faint haze and low contrast ribbons on top.
-  vec3 col = vec3(0.075, 0.078, 0.105) + tint * (ridge * 0.2 + f * 0.06);
+  // Indigo base, with a soft haze and gentle ribbons on top.
+  vec3 col = vec3(0.075, 0.08, 0.18) + tint * (ridge * 0.26 + f * 0.09);
 
   vec2 v = gl_FragCoord.xy / u_res - 0.5;
   col *= 1.0 - dot(v, v) * 0.5;

@@ -1,5 +1,5 @@
 :root {
-  --bg: #13141b;
+  --bg: #14152e;
   --ink: #ecebf7;
   --muted: #a6a4c8;
   --line: rgba(236, 235, 247, 0.12);
@@ -91,7 +91,7 @@ ul {
 }
 
 .header.is-solid {
-  background: rgba(19, 20, 27, 0.7);
+  background: rgba(20, 21, 46, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom-color: var(--line);
